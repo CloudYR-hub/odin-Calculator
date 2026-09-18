@@ -13,7 +13,17 @@ function divide(a, b) {
 let firstNumber;
 let secondNumber;
 let operation;
+let buttons = document.querySelectorAll('.numberButton');
+let input = document.getElementById('input');
 
+console.log(input);
+Array.from(buttons).forEach((button) =>{
+  button.addEventListener('click', (e) =>{
+    firstNumber = e.target.innerHTML;
+    console.log(firstNumber);
+    input.value += firstNumber;
+  })
+})
 function operate(firstNumber, secondNumber, operator) {
   if (operator === "+") {
     add(firstNumber, secondNumber);
