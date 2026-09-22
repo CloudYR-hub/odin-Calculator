@@ -23,10 +23,17 @@ let input = document.getElementById("input");
 console.log(input);
 Array.from(buttons).forEach((button) => {
   button.addEventListener("click", (e) => {
-    if (!operation) {
+    if (!operation && clicked) {
+      input.value = "";
+      firstNumber = "";
+      secondNumber = "";
       firstNumber += e.target.innerHTML;
       input.value += e.target.innerHTML;
-    } else if (operation) {
+    } else if (!operation) {
+      firstNumber += e.target.innerHTML;
+      input.value += e.target.innerHTML;
+    }
+    else if(operation){
       secondNumber += e.target.innerHTML;
       input.value += e.target.innerHTML;
     }
@@ -73,6 +80,7 @@ calculateButton.addEventListener("click", (e) => {
   secondNumber = "";
   operation = "";
   firstNumber = result;
+  clicked = true;
 });
 clearButton.addEventListener("click", () => {
   input.value = "";
