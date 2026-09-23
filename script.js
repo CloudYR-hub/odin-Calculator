@@ -88,3 +88,10 @@ clearButton.addEventListener("click", () => {
   firstNumber = "";
   secondNumber = "";
 });
+document.addEventListener('keydown', (e) =>{
+  let key = e.key;
+  if(key === 'Backspace'){
+    input.focus();
+    input.value.slice(0, -1);
+  }
+})
