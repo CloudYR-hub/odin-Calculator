@@ -19,6 +19,7 @@ let calculateButton = document.getElementById("calculateButton");
 let clearButton = document.getElementById("clearButton");
 let operations = document.querySelectorAll(".operationButton");
 let input = document.getElementById("input");
+let dotButton = document.querySelector(".dotButton");
 
 console.log(input);
 Array.from(buttons).forEach((button) => {
@@ -29,11 +30,11 @@ Array.from(buttons).forEach((button) => {
       secondNumber = "";
       firstNumber += e.target.innerHTML;
       input.value += e.target.innerHTML;
+      clicked = false;
     } else if (!operation) {
       firstNumber += e.target.innerHTML;
       input.value += e.target.innerHTML;
-    }
-    else if(operation){
+    } else if (operation) {
       secondNumber += e.target.innerHTML;
       input.value += e.target.innerHTML;
     }
@@ -41,6 +42,7 @@ Array.from(buttons).forEach((button) => {
     console.log(`Second number: ${secondNumber}`);
   });
 });
+
 Array.from(operations).forEach((button) => {
   button.addEventListener("click", (e) => {
     if (!operation) {
@@ -88,10 +90,10 @@ clearButton.addEventListener("click", () => {
   firstNumber = "";
   secondNumber = "";
 });
-document.addEventListener('keydown', (e) =>{
+document.addEventListener("keydown", (e) => {
   let key = e.key;
-  if(key === 'Backspace'){
+  if (key === "Backspace") {
     input.focus();
     input.value.slice(0, -1);
   }
-})
+});
