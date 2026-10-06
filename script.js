@@ -14,6 +14,7 @@ let firstNumber = "";
 let secondNumber = "";
 let operation = "";
 let clicked = false;
+let dotClicked = false;
 let buttons = document.querySelectorAll(".numberButton");
 let calculateButton = document.getElementById("calculateButton");
 let clearButton = document.getElementById("clearButton");
@@ -42,7 +43,23 @@ Array.from(buttons).forEach((button) => {
     console.log(`Second number: ${secondNumber}`);
   });
 });
-
+dotButton.addEventListener("click", (e) => {
+  if (!operation && clicked && !firstNumber.includes(".")) {
+    input.value = "";
+    firstNumber = "";
+    secondNumber = "";
+    firstNumber += e.target.innerHTML;
+    input.value += e.target.innerHTML;
+    clicked = false;
+  } else if (!operation && !firstNumber.includes(".")) {
+    firstNumber += e.target.innerHTML;
+    input.value += e.target.innerHTML;
+  } else if (operation && !secondNumber.includes(".")) {
+    secondNumber += e.target.innerHTML;
+    input.value += e.target.innerHTML;
+    dotClicked = true;
+  }
+});
 Array.from(operations).forEach((button) => {
   button.addEventListener("click", (e) => {
     if (!operation) {
@@ -54,6 +71,7 @@ Array.from(operations).forEach((button) => {
       operation = e.target.innerHTML;
       input.value = result + operation;
       firstNumber = result;
+      dotClicked = false;
     }
   });
 });
@@ -83,12 +101,15 @@ calculateButton.addEventListener("click", (e) => {
   operation = "";
   firstNumber = result;
   clicked = true;
+  dotClicked = false;
 });
 clearButton.addEventListener("click", () => {
   input.value = "";
   operation = "";
   firstNumber = "";
   secondNumber = "";
+  dotClicked = false;
+  clicked = false;
 });
 document.addEventListener("keydown", (e) => {
   let key = e.key;
