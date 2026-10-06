@@ -57,7 +57,6 @@ dotButton.addEventListener("click", (e) => {
   } else if (operation && !secondNumber.includes(".")) {
     secondNumber += e.target.innerHTML;
     input.value += e.target.innerHTML;
-    dotClicked = true;
   }
 });
 Array.from(operations).forEach((button) => {
@@ -116,5 +115,21 @@ document.addEventListener("keydown", (e) => {
   if (key === "Backspace") {
     input.focus();
     input.value.slice(0, -1);
+  }
+});
+document.addEventListener("keydown", function (e) {
+  if (!operation && clicked && !firstNumber.includes(".")) {
+    input.value = "";
+    firstNumber = "";
+    secondNumber = "";
+    firstNumber += e.key;
+    input.value += e.key;
+    clicked = false;
+  } else if (!operation && !firstNumber.includes(".")) {
+    firstNumber += e.key;
+    input.value += e.key;
+  } else if (operation && !secondNumber.includes(".")) {
+    secondNumber += e.key;
+    input.value += e.key;
   }
 });
