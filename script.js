@@ -77,16 +77,16 @@ Array.from(operations).forEach((button) => {
 });
 function operate(firstNumber, secondNumber, operator) {
   if (operator === "+") {
-    return Number.parseFloat(add(firstNumber, secondNumber)).toFixed(0);
+    return add(firstNumber, secondNumber).toFixed(1);
   } else if (operator === "-") {
-    return Number.parseFloat(subtract(firstNumber, secondNumber)).toFixed(0);
+    return subtract(firstNumber, secondNumber).toFixed(1);
   } else if (operator === "*") {
-    return Number.parseFloat(multiply(firstNumber, secondNumber)).toFixed(0);
+    return multiply(firstNumber, secondNumber).toFixed(1);
   } else {
     if (secondNumber === "0") {
       return (input.value = "Cannot divide from 0");
     } else {
-      return Number.parseFloat(divide(firstNumber, secondNumber)).toFixed(0);
+      return divide(firstNumber, secondNumber).toFixed(1);
     }
   }
 }
@@ -114,7 +114,75 @@ clearButton.addEventListener("click", () => {
 document.addEventListener("keydown", (e) => {
   let key = e.key;
   if (key === "Backspace") {
-    input.focus();
     input.value.slice(0, -1);
+    input.focus();
+  } else if (key === "Enter") {
+    if (!operation || !firstNumber || !secondNumber) {
+      return;
+    }
+    input.value = "";
+    let result = operate(firstNumber, secondNumber, operation);
+    input.value = result;
+    secondNumber = "";
+    operation = "";
+    firstNumber = result;
+    clicked = true;
+    dotClicked = false;
+  } else if (
+    key === "1" ||
+    key === "2" ||
+    key === "3" ||
+    key === "4" ||
+    key === "5" ||
+    key === "6" ||
+    key === "7" ||
+    key === "8" ||
+    key === "9" ||
+    key === "0"
+  ) {
+    if (!operation && clicked) {
+      input.value = "";
+      firstNumber = "";
+      secondNumber = "";
+      firstNumber += key;
+      input.value += key;
+      clicked = false;
+    } else if (!operation) {
+      firstNumber += key;
+      input.value += key;
+    } else if (operation) {
+      secondNumber += key;
+      input.value += key;
+    }
+    console.log(`First number: ${firstNumber}`);
+    console.log(`Second number: ${secondNumber}`);
+  } else if (key === ".") {
+    if (!operation && clicked && !firstNumber.includes(".")) {
+      input.value = "";
+      firstNumber = "";
+      secondNumber = "";
+      firstNumber += key;
+      input.value += key;
+      clicked = false;
+    } else if (!operation && !firstNumber.includes(".")) {
+      firstNumber += key;
+      input.value += key;
+    } else if (operation && !secondNumber.includes(".")) {
+      secondNumber += key;
+      input.value += key;
+      dotClicked = true;
+    }
+  } else if (key === "+" || key === "-" || key === "*" || key === "/") {
+    if (!operation) {
+      operation = key;
+      input.value += key;
+    } else if (operation) {
+      let result = operate(firstNumber, secondNumber, operation);
+      secondNumber = "";
+      operation = key;
+      input.value = result + operation;
+      firstNumber = result;
+      dotClicked = false;
+    }
   }
 });
